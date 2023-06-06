@@ -27,6 +27,8 @@ public interface Visitor {
   public abstract Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o);
   public abstract Object visitForCommand(ForCommand ast, Object o);
   public abstract Object visitCaseCommand(CaseCommand ast, Object o);
+  public abstract Object visitNewCommand(NewCommand ast, Object o);
+  public abstract Object visitNilCommand(NilCommand ast, Object o);
 
 
 
@@ -108,5 +110,7 @@ public interface Visitor {
 
   // Programs
   public abstract Object visitProgram(Program ast, Object o);
+
+  
 
 }

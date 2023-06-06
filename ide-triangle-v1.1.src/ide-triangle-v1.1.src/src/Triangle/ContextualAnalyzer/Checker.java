@@ -60,6 +60,8 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NilCommand;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -168,6 +170,22 @@ public final class Checker implements Visitor {
     return null;
   }
   
+  public Object visitNewCommand(NewCommand ast, Object o) {
+    Identifier i = ast.I;
+    Declaration binding = idTable.retrieve(i.spelling);
+    if (binding == null) {
+        reporter.reportError ("\"%\" is not declared", i.spelling, i.position);
+    }
+    return null;
+}
+  
+  
+   public Object visitNilCommand(NewCommand ast, Object o) {
+
+    return null;
+}
+
+
   
     
 public Object visitForCommand(ForCommand ast, Object o) {
@@ -1020,4 +1038,9 @@ public Object visitCaseCommand(CaseCommand ast,Object o){
     StdEnvironment.unequalDecl = declareStdBinaryOp("\\=", StdEnvironment.anyType, StdEnvironment.anyType, StdEnvironment.booleanType);
 
   }
+
+    @Override
+    public Object visitNilCommand(NilCommand ast, Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -57,6 +57,8 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NilCommand;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -392,6 +394,22 @@ case Token.CASE:
 }
 break;
 
+case Token.NEW:
+{
+    acceptIt();
+    Identifier iAST = parseIdentifier();
+    finish(commandPos);
+    commandAST = new NewCommand(iAST,commandPos);
+}
+break;
+
+case Token.NIL:
+  {
+    acceptIt();
+    finish(commandPos);
+    commandAST = new NilCommand(commandPos);
+  }
+  break;
 
     case Token.SEMICOLON:
     case Token.END:

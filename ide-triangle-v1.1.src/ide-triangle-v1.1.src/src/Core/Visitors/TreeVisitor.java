@@ -45,6 +45,8 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NilCommand;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -143,6 +145,16 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
     return createUnary("Case Command", ast.E);
    
 }
+
+   public Object visitNewCommand(NewCommand ast,Object obt){
+        return (createUnary("NewCom.", ast.I));
+    }
+   
+       public Object visitNilCommand(NilCommand ast,Object obt){
+        return createNullary("NilCom.");
+    }
+   
+   
 
     // </editor-fold>
     
