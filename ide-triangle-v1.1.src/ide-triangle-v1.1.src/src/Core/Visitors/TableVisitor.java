@@ -352,14 +352,14 @@ public class TableVisitor implements Visitor {
   
 public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast, Object o) {
 
-    try {
-        addIdentifier(ast.I.spelling, 
-                "KnownAddress", 
-                (ast.entity!=null?ast.entity.size:0), 
-                ((KnownAddress)ast.entity).address.level, 
-                ((KnownAddress)ast.entity).address.displacement, 
-                -1);
-    } catch (NullPointerException e) { }
+//    try {
+//        addIdentifier(ast.I.spelling, 
+//                "KnownAddress", 
+//                (ast.entity!=null?ast.entity.size:0), 
+//                ((KnownAddress)ast.entity).address.level, 
+//                ((KnownAddress)ast.entity).address.displacement, 
+//                -1);
+//    } catch (NullPointerException e) { }
 
   
     ast.NodeTypeDeclaration.visit(this, null);

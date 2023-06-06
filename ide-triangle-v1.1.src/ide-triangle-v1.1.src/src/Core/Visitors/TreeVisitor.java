@@ -241,7 +241,7 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
         return(createBinary("Variable Declaration", ast.I, ast.T));
     }
       public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast,Object obj){
-      return createTernary("Recursive Declaration", ast.I, ast.NodeType,ast.NodeTypeDeclaration);
+      return createBinary("Recursive Declaration", ast.NodeType,ast.NodeTypeDeclaration);
   }
      public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast,Object obj){
       return createBinary("Node Declaration", ast.I , ast.T);

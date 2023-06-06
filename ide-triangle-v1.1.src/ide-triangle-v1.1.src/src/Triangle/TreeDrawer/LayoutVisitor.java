@@ -248,7 +248,7 @@ public class LayoutVisitor implements Visitor {
   }
   
   public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast,Object obj){
-      return layoutTernary("RecursiveDecl", ast.I, ast.NodeType,ast.NodeTypeDeclaration);
+      return layoutBinary("RecursiveDecl", ast.NodeType,ast.NodeTypeDeclaration);
   }
     public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast,Object obj){
       return layoutBinary("NodeDecl", ast.I , ast.T);

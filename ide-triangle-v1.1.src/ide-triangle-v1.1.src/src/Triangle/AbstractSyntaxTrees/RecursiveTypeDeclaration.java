@@ -15,7 +15,7 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
  * @author richa
  */
 public class RecursiveTypeDeclaration extends Declaration{
-    public Identifier I;
+   // public Identifier I;
     public Identifier NodeType;
     public NodeTypeDeclaration NodeTypeDeclaration;
 
