@@ -783,14 +783,15 @@ case Token.NIL:
  Declaration parseRecursiveTypeDeclaration() throws SyntaxError {
     SourcePosition declarationPos = new SourcePosition();
     start(declarationPos);
-    Identifier iAST = parseIdentifier();
-    accept(Token.IS);
+//    Identifier iAST = parseIdentifier();
+    //accept(Token.IS);
     accept(Token.NEW);
     Identifier nodeType = parseIdentifier();
-    accept(Token.SEMICOLON);
+   accept(Token.SEMICOLON);
     NodeTypeDeclaration nodeTypeDeclaration = parseNodeTypeDeclaration();
      finish(declarationPos);
-    return new RecursiveTypeDeclaration(iAST, nodeType, nodeTypeDeclaration,declarationPos);
+    //return new RecursiveTypeDeclaration(iAST, nodeType, nodeTypeDeclaration,declarationPos);
+    return new RecursiveTypeDeclaration(nodeType, nodeTypeDeclaration,declarationPos);
 }
 
 

@@ -1,5 +1,5 @@
 let
-  type IntNode: new Node;
+  type IntNode ~ new Node;
   Node = record:
     value: Integer;
     next: IntNode;

@@ -1,0 +1,4 @@
+let
+type IntNode ~ new Node;
+record Node : Integer end
+in
