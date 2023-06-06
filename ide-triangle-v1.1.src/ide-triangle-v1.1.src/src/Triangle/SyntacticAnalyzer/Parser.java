@@ -770,13 +770,20 @@ case Token.NIL:
   NodeTypeDeclaration parseNodeTypeDeclaration() throws SyntaxError {
     SourcePosition declarationPos = new SourcePosition();
     start(declarationPos);
-    accept(Token.RECORD);
     Identifier iAST = parseIdentifier();
     accept(Token.COLON);
+    accept(Token.RECORD);
+    Identifier head = parseIdentifier();
+    accept(Token.COLON);
     TypeDenoter tAST = parseTypeDenoter();
+    accept(Token.SEMICOLON);
+    Identifier tail = parseIdentifier();
+    accept(Token.COLON);
+    TypeDenoter t2AST = parseTypeDenoter();
     accept(Token.END);
     finish(declarationPos);
-    return new NodeTypeDeclaration(iAST, tAST, declarationPos);
+  
+    return new NodeTypeDeclaration(iAST,head, tAST,tail,t2AST,declarationPos);
 }
 
   
