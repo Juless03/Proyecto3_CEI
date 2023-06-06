@@ -754,10 +754,34 @@ case Token.NIL:
       syntacticError("\"%\" cannot start a declaration",
         currentToken.spelling);
       break;
+      
 
     }
     return declarationAST;
   }
+  
+  NodeTypeDeclaration parseNodeTypeDeclaration() throws SyntaxError {
+    accept(Token.RECORD);
+    Identifier i = parseIdentifier();
+    accept(Token.COLON);
+    TypeDenoter t = parseTypeDenoter();
+    accept(Token.END);
+    return new NodeTypeDeclaration(i, t, currentToken.position);
+}
+
+  
+ RecursiveTypeDeclaration parseRecursiveTypeDeclaration() throws SyntaxError {
+    accept(Token.TYPE);
+    Identifier i = parseIdentifier();
+    accept(Token.IS);
+    accept(Token.NEW);
+    Identifier nodeType = parseIdentifier();
+    accept(Token.SEMICOLON);
+    NodeTypeDeclaration nodeTypeDeclaration = parseNodeTypeDeclaration();
+     finish(declarationPos);
+    return new RecursiveTypeDeclaration(i, nodeType, nodeTypeDeclaration);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //

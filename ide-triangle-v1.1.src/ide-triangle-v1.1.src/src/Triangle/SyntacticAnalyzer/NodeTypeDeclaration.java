@@ -5,10 +5,24 @@
  */
 package Triangle.SyntacticAnalyzer;
 
+import Triangle.AbstractSyntaxTrees.Identifier;
+import Triangle.AbstractSyntaxTrees.TypeDenoter;
+
 /**
  *
  * @author richa
  */
 class NodeTypeDeclaration {
-    
+    public Identifier I;
+    public TypeDenoter T;
+
+    public NodeTypeDeclaration(Identifier i, TypeDenoter t, SourcePosition position) {
+        super(position);
+        this.I = i;
+        this.T = t;
+    }
+
+    public Object visit(Visitor v, Object o) {
+        return v.visitNodeTypeDeclaration(this, o);
+    }
 }
