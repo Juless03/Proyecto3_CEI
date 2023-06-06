@@ -1,0 +1,12 @@
+let 
+  var n: Integer;
+  var m: Integer
+in
+begin
+  getint (var m); ! Number of iterations. 
+  for n from 1 to m do
+  begin
+	putint(n)
+  end;
+end
+

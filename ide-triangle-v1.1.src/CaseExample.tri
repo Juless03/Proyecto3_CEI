@@ -1,0 +1,10 @@
+let
+    var day: Integer
+in
+    begin
+        getint(var day); 
+        case day of 
+            1: putint(1); 
+            else: putint(0); ! This case handles any other values.
+        end
+    end;
