@@ -62,6 +62,7 @@ import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
 import Triangle.AbstractSyntaxTrees.NilCommand;
+import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -69,6 +70,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
@@ -452,6 +454,28 @@ public Object visitCaseCommand(CaseCommand ast,Object o){
 
     return null;
   }
+  
+  public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast, Object o) {
+  
+    idTable.openScope();
+    ast.NodeTypeDeclaration.visit(this, null);
+    idTable.closeScope();
+
+    return null;
+}
+  
+  public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o) {
+    TypeDenoter type = (TypeDenoter) ast.T.visit(this, null);
+    idTable.enter(ast.I.spelling, ast);
+    if (ast.duplicated)
+      reporter.reportError ("identifier \"%\" already declared",
+                            ast.I.spelling, ast.position);
+    if (type == null) {
+        reporter.reportError("Invalid type for node field \"%\"", ast.I.spelling, ast.I.position);
+    }
+
+    return null;
+}
 
   // Array Aggregates
 

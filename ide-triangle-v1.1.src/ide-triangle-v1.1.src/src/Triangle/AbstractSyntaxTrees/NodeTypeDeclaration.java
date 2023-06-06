@@ -3,23 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Triangle.SyntacticAnalyzer;
+package Triangle.AbstractSyntaxTrees;
 
 import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.TypeDenoter;
+import Triangle.SyntacticAnalyzer.SourcePosition;
 
 /**
  *
  * @author richa
  */
-class NodeTypeDeclaration {
+public class NodeTypeDeclaration extends Declaration {
     public Identifier I;
     public TypeDenoter T;
 
-    public NodeTypeDeclaration(Identifier i, TypeDenoter t, SourcePosition position) {
+    public NodeTypeDeclaration(Identifier iAST, TypeDenoter tAST, SourcePosition position) {
         super(position);
-        this.I = i;
-        this.T = t;
+        this.I = iAST;
+        this.T = tAST;
     }
 
     public Object visit(Visitor v, Object o) {

@@ -14,6 +14,8 @@
 
 package Triangle.SyntacticAnalyzer;
 
+import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
+import Triangle.AbstractSyntaxTrees.RecursiveTypeDeclaration;
 import Triangle.ErrorReporter;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.ActualParameter;
@@ -744,9 +746,14 @@ case Token.NIL:
         acceptIt();
         Identifier iAST = parseIdentifier();
         accept(Token.IS);
-        TypeDenoter tAST = parseTypeDenoter();
-        finish(declarationPos);
-        declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
+        if(currentToken.kind == Token.NEW){
+            declarationAST = parseRecursiveTypeDeclaration();
+        }else{
+            TypeDenoter tAST = parseTypeDenoter();
+            finish(declarationPos);
+            declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
+        }
+        
       }
       break;
 
@@ -761,25 +768,29 @@ case Token.NIL:
   }
   
   NodeTypeDeclaration parseNodeTypeDeclaration() throws SyntaxError {
+    SourcePosition declarationPos = new SourcePosition();
+    start(declarationPos);
     accept(Token.RECORD);
-    Identifier i = parseIdentifier();
+    Identifier iAST = parseIdentifier();
     accept(Token.COLON);
-    TypeDenoter t = parseTypeDenoter();
+    TypeDenoter tAST = parseTypeDenoter();
     accept(Token.END);
-    return new NodeTypeDeclaration(i, t, currentToken.position);
+    finish(declarationPos);
+    return new NodeTypeDeclaration(iAST, tAST, declarationPos);
 }
 
   
- RecursiveTypeDeclaration parseRecursiveTypeDeclaration() throws SyntaxError {
-    accept(Token.TYPE);
-    Identifier i = parseIdentifier();
+ Declaration parseRecursiveTypeDeclaration() throws SyntaxError {
+    SourcePosition declarationPos = new SourcePosition();
+    start(declarationPos);
+    Identifier iAST = parseIdentifier();
     accept(Token.IS);
     accept(Token.NEW);
     Identifier nodeType = parseIdentifier();
     accept(Token.SEMICOLON);
     NodeTypeDeclaration nodeTypeDeclaration = parseNodeTypeDeclaration();
      finish(declarationPos);
-    return new RecursiveTypeDeclaration(i, nodeType, nodeTypeDeclaration);
+    return new RecursiveTypeDeclaration(iAST, nodeType, nodeTypeDeclaration,declarationPos);
 }
 
 

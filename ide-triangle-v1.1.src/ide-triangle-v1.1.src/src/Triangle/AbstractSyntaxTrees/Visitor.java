@@ -55,6 +55,9 @@ public interface Visitor {
   public abstract Object visitTypeDeclaration(TypeDeclaration ast, Object o);
   public abstract Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o);
   public abstract Object visitVarDeclaration(VarDeclaration ast, Object o);
+  public abstract Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast, Object o);
+  public abstract Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o);
+
 
   // Array Aggregates
   public abstract Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o);
@@ -93,6 +96,7 @@ public interface Visitor {
   public abstract Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o);
   public abstract Object visitIntTypeDenoter(IntTypeDenoter ast, Object o);
   public abstract Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o);
+  
 
   public abstract Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object o);
   public abstract Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object o);

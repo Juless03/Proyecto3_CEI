@@ -68,6 +68,7 @@ import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
 import Triangle.AbstractSyntaxTrees.NilCommand;
+import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -75,6 +76,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
@@ -467,6 +469,18 @@ public Object visitNilCommand(NilCommand ast, Object o) {
     writeTableDetails(ast);
     return new Integer(extraSize);
   }
+  
+  public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast, Object o) {
+    Frame frame = (Frame) o;
+    ast.NodeTypeDeclaration.visit(this, frame);
+    return null;
+}
+  
+  public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o) {
+    Frame frame = (Frame) o;
+    ast.T.visit(this, frame);
+    return null;
+}
 
 
   // Array Aggregates

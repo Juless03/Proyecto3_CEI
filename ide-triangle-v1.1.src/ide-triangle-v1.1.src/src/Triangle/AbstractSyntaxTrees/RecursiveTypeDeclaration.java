@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Triangle.SyntacticAnalyzer;
+package Triangle.AbstractSyntaxTrees;
 
+import Triangle.AbstractSyntaxTrees.Declaration;
 import Triangle.AbstractSyntaxTrees.Identifier;
+import Triangle.AbstractSyntaxTrees.Visitor;
+import Triangle.SyntacticAnalyzer.SourcePosition;
 
 /**
  *
  * @author richa
  */
-class RecursiveTypeDeclaration {
+public class RecursiveTypeDeclaration extends Declaration{
     public Identifier I;
     public Identifier NodeType;
     public NodeTypeDeclaration NodeTypeDeclaration;
@@ -26,4 +29,6 @@ class RecursiveTypeDeclaration {
     public Object visit(Visitor v, Object o) {
         return v.visitRecursiveTypeDeclaration(this, o);
     }
+
+
 }
