@@ -14,6 +14,8 @@
 
 package Triangle.SyntacticAnalyzer;
 
+import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
+import Triangle.AbstractSyntaxTrees.RecursiveTypeDeclaration;
 import Triangle.ErrorReporter;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.ActualParameter;
@@ -57,6 +59,8 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -392,6 +396,16 @@ case Token.CASE:
 }
 break;
 
+case Token.NEW:
+{
+    acceptIt();
+    Identifier iAST = parseIdentifier();
+    finish(commandPos);
+    commandAST = new NewCommand(iAST,commandPos);
+}
+break;
+
+
 
     case Token.SEMICOLON:
     case Token.END:
@@ -451,6 +465,13 @@ break;
         expressionAST = new IfExpression(e1AST, e2AST, e3AST, expressionPos);
       }
       break;
+      
+       case Token.NIL: {
+                acceptIt();
+                finish(expressionPos);
+                expressionAST = new NilExpression(expressionPos);
+            }
+            break;
 
     default:
       expressionAST = parseSecondaryExpression();
@@ -551,6 +572,14 @@ break;
       expressionAST = parseExpression();
       accept(Token.RPAREN);
       break;
+      
+     case Token.NIL: 
+     {
+                acceptIt();
+                finish(expressionPos);
+                expressionAST = new NilExpression(expressionPos);
+      }
+            break;
 
     default:
       syntacticError("\"%\" cannot start an expression",
@@ -726,9 +755,14 @@ break;
         acceptIt();
         Identifier iAST = parseIdentifier();
         accept(Token.IS);
-        TypeDenoter tAST = parseTypeDenoter();
-        finish(declarationPos);
-        declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
+        if(currentToken.kind == Token.NEW){
+            declarationAST = parseRecursiveTypeDeclaration();
+        }else{
+            TypeDenoter tAST = parseTypeDenoter();
+            finish(declarationPos);
+            declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
+        }
+        
       }
       break;
 
@@ -736,10 +770,43 @@ break;
       syntacticError("\"%\" cannot start a declaration",
         currentToken.spelling);
       break;
+      
 
     }
     return declarationAST;
   }
+  
+  NodeTypeDeclaration parseNodeTypeDeclaration() throws SyntaxError {
+    SourcePosition declarationPos = new SourcePosition();
+    start(declarationPos);
+    Identifier iAST = parseIdentifier();
+    accept(Token.COLON);
+    accept(Token.RECORD);
+    Identifier head = parseIdentifier();
+    accept(Token.COLON);
+    TypeDenoter tAST = parseTypeDenoter();
+    accept(Token.SEMICOLON);
+    Identifier tail = parseIdentifier();
+    accept(Token.COLON);
+    TypeDenoter t2AST = parseTypeDenoter();
+    accept(Token.END);
+    finish(declarationPos);
+  
+    return new NodeTypeDeclaration(iAST,head, tAST,tail,t2AST,declarationPos);
+}
+
+  
+ Declaration parseRecursiveTypeDeclaration() throws SyntaxError {
+    SourcePosition declarationPos = new SourcePosition();
+    start(declarationPos);
+    accept(Token.NEW);
+    Identifier nodeType = parseIdentifier();
+   accept(Token.SEMICOLON);
+    NodeTypeDeclaration nodeTypeDeclaration = parseNodeTypeDeclaration();
+     finish(declarationPos);
+    return new RecursiveTypeDeclaration(nodeType, nodeTypeDeclaration,declarationPos);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -935,6 +1002,7 @@ break;
         actualAST = new FuncActualParameter(iAST, actualPos);
       }
       break;
+      
 
     default:
       syntacticError("\"%\" cannot start an actual parameter",

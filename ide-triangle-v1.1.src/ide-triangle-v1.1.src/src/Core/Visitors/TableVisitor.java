@@ -45,6 +45,10 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
+import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -52,6 +56,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
@@ -168,6 +173,13 @@ public class TableVisitor implements Visitor {
     }
     return null;
 }
+   
+
+   public Object visitNewCommand(NewCommand ast,Object obt){
+        ast.I.visit(this, null);
+        return null;
+    }
+
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc=" Expressions ">
@@ -240,6 +252,10 @@ public class TableVisitor implements Visitor {
       
       return(null);
   }
+  
+ public Object visitNilExpression(NilExpression ast,Object obt){
+        return null;
+    }
   // </editor-fold>
   
   // <editor-fold defaultstate="collapsed" desc=" Declarations ">
@@ -336,6 +352,40 @@ public class TableVisitor implements Visitor {
       ast.T.visit(this, null);
       return(null);
   }
+  
+public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast, Object o) {
+
+//    try {
+//        addIdentifier(ast.I.spelling, 
+//                "KnownAddress", 
+//                (ast.entity!=null?ast.entity.size:0), 
+//                ((KnownAddress)ast.entity).address.level, 
+//                ((KnownAddress)ast.entity).address.displacement, 
+//                -1);
+//    } catch (NullPointerException e) { }
+
+  
+    ast.NodeTypeDeclaration.visit(this, null);
+
+    return null;
+}
+
+public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o) {
+   
+    try {
+        addIdentifier(ast.I.spelling, 
+                "KnownAddress", 
+                (ast.entity!=null?ast.entity.size:0), 
+                ((KnownAddress)ast.entity).address.level, 
+                ((KnownAddress)ast.entity).address.displacement, 
+                -1);
+    } catch (NullPointerException e) { }
+
+ 
+    ast.T.visit(this, null);
+
+    return null;
+}
   
   // </editor-fold>
 
@@ -559,6 +609,12 @@ public class TableVisitor implements Visitor {
   
       return(null);
   }
+  
+  public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
+      return null;
+  }
+  
+
   
   // </editor-fold>
 

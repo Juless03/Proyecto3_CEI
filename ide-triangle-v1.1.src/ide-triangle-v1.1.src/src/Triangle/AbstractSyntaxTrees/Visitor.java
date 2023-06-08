@@ -27,6 +27,8 @@ public interface Visitor {
   public abstract Object visitRepeatUntilCommand(RepeatUntilCommand ast, Object o);
   public abstract Object visitForCommand(ForCommand ast, Object o);
   public abstract Object visitCaseCommand(CaseCommand ast, Object o);
+  public abstract Object visitNewCommand(NewCommand ast, Object o);
+ 
 
 
 
@@ -43,6 +45,7 @@ public interface Visitor {
   public abstract Object visitRecordExpression(RecordExpression ast, Object o);
   public abstract Object visitUnaryExpression(UnaryExpression ast, Object o);
   public abstract Object visitVnameExpression(VnameExpression ast, Object o);
+  public abstract Object visitNilExpression(NilExpression ast, Object o);
 
   // Declarations
   public abstract Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast, Object o);
@@ -53,6 +56,9 @@ public interface Visitor {
   public abstract Object visitTypeDeclaration(TypeDeclaration ast, Object o);
   public abstract Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o);
   public abstract Object visitVarDeclaration(VarDeclaration ast, Object o);
+  public abstract Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast, Object o);
+  public abstract Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o);
+
 
   // Array Aggregates
   public abstract Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o);
@@ -91,6 +97,9 @@ public interface Visitor {
   public abstract Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o);
   public abstract Object visitIntTypeDenoter(IntTypeDenoter ast, Object o);
   public abstract Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o);
+    public abstract Object visitNilTypeDenoter(NilTypeDenoter ast, Object o);
+ 
+  
 
   public abstract Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object o);
   public abstract Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object o);
@@ -108,5 +117,7 @@ public interface Visitor {
 
   // Programs
   public abstract Object visitProgram(Program ast, Object o);
+
+  
 
 }

@@ -57,6 +57,10 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
+import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -64,6 +68,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
@@ -154,6 +159,12 @@ public class LayoutVisitor implements Visitor {
 
     return result;
   }
+    
+    public Object visitNewCommand(NewCommand ast,Object obt){
+        return layoutUnary("NewCom.", ast.I);
+    }
+    
+
 
 
   // Expressions
@@ -200,6 +211,10 @@ public class LayoutVisitor implements Visitor {
   public Object visitVnameExpression(VnameExpression ast, Object obj) {
     return layoutUnary("VnameExpr.", ast.V);
   }
+  
+  public Object visitNilExpression(NilExpression ast,Object obt){
+        return layoutNullary("NilExpr.");
+    }
 
 
   // Declarations
@@ -234,6 +249,15 @@ public class LayoutVisitor implements Visitor {
   public Object visitVarDeclaration(VarDeclaration ast, Object obj) {
     return layoutBinary("VarDecl.", ast.I, ast.T);
   }
+  
+  public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast,Object obj){
+      return layoutBinary("RecursiveDecl", ast.NodeType,ast.NodeTypeDeclaration);
+  }
+    public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast,Object obj){
+      return layoutQuinary("NodeDecl", ast.I,ast.head,ast.T,ast.tail,ast.T2);
+  }
+    
+ 
 
 
   // Array Aggregates
@@ -359,6 +383,11 @@ public class LayoutVisitor implements Visitor {
   public Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object obj) {
     return layoutBinary("Sing.F.TypeD.", ast.I, ast.T);
   }
+  
+    public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
+      return layoutNullary("Nill.TypeD.");
+  }
+  
 
 
   // Literals, Identifiers and Operators
@@ -450,6 +479,18 @@ public class LayoutVisitor implements Visitor {
     DrawingTree d3 = (DrawingTree) child3.visit(this, null);
     DrawingTree d4 = (DrawingTree) child4.visit(this, null);
     dt.setChildren(new DrawingTree[] {d1, d2, d3, d4});
+    attachParent(dt, join(dt));
+    return dt;
+  }
+  
+  private DrawingTree layoutQuinary(String name,AST child1,AST child2,AST child3,AST child4,AST child5){
+    DrawingTree dt = layoutCaption(name);
+    DrawingTree d1 = (DrawingTree) child1.visit(this, null);
+    DrawingTree d2 = (DrawingTree) child2.visit(this, null);
+    DrawingTree d3 = (DrawingTree) child3.visit(this, null);
+    DrawingTree d4 = (DrawingTree) child4.visit(this, null);
+    DrawingTree d5 = (DrawingTree) child5.visit(this, null);
+    dt.setChildren(new DrawingTree[] {d1, d2, d3, d4,d5});
     attachParent(dt, join(dt));
     return dt;
   }

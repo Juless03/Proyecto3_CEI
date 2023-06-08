@@ -66,6 +66,10 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
+import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -73,6 +77,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
@@ -85,6 +90,7 @@ import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.SubscriptVname;
 import Triangle.AbstractSyntaxTrees.TypeDeclaration;
+import Triangle.AbstractSyntaxTrees.TypeDenoter;
 import Triangle.AbstractSyntaxTrees.UnaryExpression;
 import Triangle.AbstractSyntaxTrees.UnaryOperatorDeclaration;
 import Triangle.AbstractSyntaxTrees.VarActualParameter;
@@ -94,6 +100,7 @@ import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.Vname;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
+import Triangle.ContextualAnalyzer.IdentificationTable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -179,6 +186,7 @@ public final class Encoder implements Visitor {
 public Object visitForCommand(ForCommand ast, Object o) {
     Frame frame = (Frame) o;
     int condAddr, loopAddr, afterLoopAddr;
+   
 
     // Inicialización: 'I := Expression1'
     ast.I.visit(this, frame);
@@ -247,6 +255,16 @@ public Object visitCaseCommand(CaseCommand ast, Object o) {
     
     return null;
 }
+
+public Object visitNewCommand(NewCommand ast, Object o) {
+    Frame frame = (Frame) o;
+    int extraSize;
+    extraSize = ((Integer) ast.I.visit(this, null)).intValue();
+    emit(Machine.PUSHop, 0, 0, extraSize);
+
+    return null;
+}
+
 
 
     
@@ -344,6 +362,13 @@ public Object visitCaseCommand(CaseCommand ast, Object o) {
     encodeFetch(ast.V, frame, valSize.intValue());
     return valSize;
   }
+  
+    public Object visitNilExpression(NilExpression ast, Object o) {
+    Frame frame = (Frame) o;
+
+    emit(Machine.LOADLop, 0, 0, 0);
+    return 1;
+}
 
 
   // Declarations
@@ -447,6 +472,19 @@ public Object visitCaseCommand(CaseCommand ast, Object o) {
     writeTableDetails(ast);
     return new Integer(extraSize);
   }
+  
+  public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast, Object o) {
+    Frame frame = (Frame) o;
+    ast.NodeTypeDeclaration.visit(this, frame);
+    return null;
+}
+  
+  public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o) {
+    Frame frame = (Frame) o;
+    ast.T.visit(this, frame);
+    ast.T2.visit(this, frame);
+    return null;
+}
 
 
   // Array Aggregates
@@ -701,6 +739,13 @@ public Object visitCaseCommand(CaseCommand ast, Object o) {
 
     return new Integer(fieldSize);
   }
+  
+    public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
+        
+      return new Integer(1);
+  }
+  
+
 
 
   // Literals, Identifiers and Operators

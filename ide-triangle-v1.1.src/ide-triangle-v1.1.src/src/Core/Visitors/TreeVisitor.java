@@ -45,6 +45,10 @@ import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
 import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
+import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
+import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -52,6 +56,7 @@ import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
 import Triangle.AbstractSyntaxTrees.Program;
 import Triangle.AbstractSyntaxTrees.RecordExpression;
 import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
+import Triangle.AbstractSyntaxTrees.RecursiveTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.RepeatUntilCommand;
 import Triangle.AbstractSyntaxTrees.SequentialCommand;
 import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
@@ -144,6 +149,14 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
    
 }
 
+   public Object visitNewCommand(NewCommand ast,Object obt){
+        return (createUnary("NewCom.", ast.I));
+    }
+   
+
+   
+   
+
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Expressions ">
@@ -191,6 +204,10 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
     public Object visitVnameExpression(VnameExpression ast, Object obj) {
         return(createUnary("Vname Expression", ast.V));
     }
+    
+   public Object visitNilExpression(NilExpression ast,Object obt){
+        return createNullary("Nil Type Expression.");
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Declarations ">
@@ -226,6 +243,12 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
     public Object visitVarDeclaration(VarDeclaration ast, Object obj) {
         return(createBinary("Variable Declaration", ast.I, ast.T));
     }
+      public Object visitRecursiveTypeDeclaration(RecursiveTypeDeclaration ast,Object obj){
+      return createBinary("Recursive Declaration", ast.NodeType,ast.NodeTypeDeclaration);
+  }
+     public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast,Object obj){
+      return createQuinary("Node Declaration", ast.I , ast.head,ast.T,ast.tail,ast.T2);
+  }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Aggregates ">
@@ -349,6 +372,11 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
     public Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object obj) {
         return(createBinary("Single Field Type Denoter", ast.I, ast.T));
     }
+    
+  public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
+      return (createNullary("Nil Type Denoter"));
+  }
+
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Literals, Identifiers and Operators ">
@@ -463,6 +491,17 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
         t.add((DefaultMutableTreeNode)child3.visit(this, null));
         t.add((DefaultMutableTreeNode)child4.visit(this, null));
         
+        return(t);             
+    }
+    
+    public DefaultMutableTreeNode createQuinary(String caption, AST child1, AST child2, AST child3, AST child4,AST child5) {
+        DefaultMutableTreeNode t = new DefaultMutableTreeNode(caption);
+        t.add((DefaultMutableTreeNode)child1.visit(this, null));
+        t.add((DefaultMutableTreeNode)child2.visit(this, null));
+        t.add((DefaultMutableTreeNode)child3.visit(this, null));
+        t.add((DefaultMutableTreeNode)child4.visit(this, null));
+        t.add((DefaultMutableTreeNode)child5.visit(this, null));
+       
         return(t);             
     }
     // </editor-fold>
