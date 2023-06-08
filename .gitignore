@@ -2,3 +2,5 @@
 *.xml
 ide-triangle-v1.1.src/ide-triangle-v1.1.src/dist/IDE-Triangle.jar
 *.jar
+*.jar
+*.properties
