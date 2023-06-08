@@ -62,6 +62,7 @@ import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
 import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
@@ -1053,6 +1054,15 @@ break;
         accept(Token.END);
         finish(typePos);
         typeAST = new RecordTypeDenoter(fAST, typePos);
+      }
+      break;
+      
+    case Token.POINTER:
+      {
+        acceptIt();
+        Identifier iAST = parseIdentifier();
+        finish(typePos);
+        typeAST = new PointerTypeDenoter(iAST, typePos);
       }
       break;
 

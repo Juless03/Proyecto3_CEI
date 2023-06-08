@@ -97,7 +97,9 @@ public interface Visitor {
   public abstract Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o);
   public abstract Object visitIntTypeDenoter(IntTypeDenoter ast, Object o);
   public abstract Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o);
-    public abstract Object visitNilTypeDenoter(NilTypeDenoter ast, Object o);
+ public abstract Object visitNilTypeDenoter(NilTypeDenoter ast, Object o);
+  public abstract Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o);
+
  
   
 

@@ -71,6 +71,7 @@ import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
@@ -744,6 +745,17 @@ public Object visitNewCommand(NewCommand ast, Object o) {
         
       return new Integer(1);
   }
+    
+ public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o) {
+    int typeSize;
+    if (ast.entity == null) {
+      typeSize = 4;
+      ast.entity = new TypeRepresentation(typeSize);
+      writeTableDetails(ast);
+    } else
+      typeSize = ast.entity.size;
+    return new Integer(typeSize);
+}
   
 
 
