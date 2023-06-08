@@ -61,7 +61,8 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
-import Triangle.AbstractSyntaxTrees.NilCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
@@ -182,10 +183,7 @@ public final class Checker implements Visitor {
 }
   
   
-   public Object visitNilCommand(NewCommand ast, Object o) {
 
-    return null;
-}
 
 
   
@@ -381,6 +379,11 @@ public Object visitCaseCommand(CaseCommand ast,Object o){
     ast.type = (TypeDenoter) ast.V.visit(this, null);
     return ast.type;
   }
+  
+      public Object visitNilExpression(NilExpression ast, Object o) {
+        ast.type = StdEnvironment.nilType;
+        return ast.type;
+    }
 
   // Declarations
 
@@ -759,6 +762,10 @@ public Object visitCaseCommand(CaseCommand ast,Object o){
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     return ast;
   }
+  
+   public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o) {
+        return StdEnvironment.nilType;
+    }
 
   // Literals, Identifiers and Operators
   public Object visitCharacterLiteral(CharacterLiteral CL, Object o) {
@@ -1063,8 +1070,5 @@ public Object visitCaseCommand(CaseCommand ast,Object o){
 
   }
 
-    @Override
-    public Object visitNilCommand(NilCommand ast, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 }

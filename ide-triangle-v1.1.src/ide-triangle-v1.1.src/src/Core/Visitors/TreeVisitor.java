@@ -46,7 +46,8 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
-import Triangle.AbstractSyntaxTrees.NilCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
@@ -152,9 +153,7 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
         return (createUnary("NewCom.", ast.I));
     }
    
-       public Object visitNilCommand(NilCommand ast,Object obt){
-        return createNullary("NilCom.");
-    }
+
    
    
 
@@ -204,6 +203,10 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
     
     public Object visitVnameExpression(VnameExpression ast, Object obj) {
         return(createUnary("Vname Expression", ast.V));
+    }
+    
+   public Object visitNilExpression(NilExpression ast,Object obt){
+        return createNullary("Nil Type Expression.");
     }
     // </editor-fold>
     
@@ -369,6 +372,11 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
     public Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object obj) {
         return(createBinary("Single Field Type Denoter", ast.I, ast.T));
     }
+    
+  public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
+      return (createNullary("Nil Type Denoter"));
+  }
+
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Literals, Identifiers and Operators ">

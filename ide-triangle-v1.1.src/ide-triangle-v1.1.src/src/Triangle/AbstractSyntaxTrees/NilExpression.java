@@ -11,17 +11,14 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
  *
  * @author richa
  */
-public class NilCommand extends Command {
-   public NilCommand (SourcePosition thePosition) {
-    super (thePosition);
-    
+public class NilExpression extends Expression{
+   public NilExpression(SourcePosition thePosition) {
+        super(thePosition);
+    }
 
-  }
-
-
-  public Object visit(Visitor v, Object o) {
-    return v.visitNilCommand(this, o);
-  }
-
+    public Object visit(Visitor v, Object o) {
+        return v.visitNilExpression(this, o);
+    }
 
 }
+

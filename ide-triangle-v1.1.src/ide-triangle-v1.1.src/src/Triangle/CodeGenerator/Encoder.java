@@ -67,7 +67,8 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
-import Triangle.AbstractSyntaxTrees.NilCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
@@ -264,12 +265,7 @@ public Object visitNewCommand(NewCommand ast, Object o) {
     return null;
 }
 
-public Object visitNilCommand(NilCommand ast, Object o) {
-    Frame frame = (Frame) o;
 
-    emit(Machine.PUSHop, 0, 0, 0);
-    return null;
-}
 
     
 
@@ -366,6 +362,13 @@ public Object visitNilCommand(NilCommand ast, Object o) {
     encodeFetch(ast.V, frame, valSize.intValue());
     return valSize;
   }
+  
+    public Object visitNilExpression(NilExpression ast, Object o) {
+    Frame frame = (Frame) o;
+
+    emit(Machine.LOADLop, 0, 0, 0);
+    return 1;
+}
 
 
   // Declarations
@@ -736,6 +739,13 @@ public Object visitNilCommand(NilCommand ast, Object o) {
 
     return new Integer(fieldSize);
   }
+  
+    public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
+        
+      return new Integer(1);
+  }
+  
+
 
 
   // Literals, Identifiers and Operators

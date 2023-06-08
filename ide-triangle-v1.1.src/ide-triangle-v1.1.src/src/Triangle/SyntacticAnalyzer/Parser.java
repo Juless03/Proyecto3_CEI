@@ -60,7 +60,7 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
-import Triangle.AbstractSyntaxTrees.NilCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -405,13 +405,7 @@ case Token.NEW:
 }
 break;
 
-case Token.NIL:
-  {
-    acceptIt();
-    finish(commandPos);
-    commandAST = new NilCommand(commandPos);
-  }
-  break;
+
 
     case Token.SEMICOLON:
     case Token.END:
@@ -471,6 +465,13 @@ case Token.NIL:
         expressionAST = new IfExpression(e1AST, e2AST, e3AST, expressionPos);
       }
       break;
+      
+       case Token.NIL: {
+                acceptIt();
+                finish(expressionPos);
+                expressionAST = new NilExpression(expressionPos);
+            }
+            break;
 
     default:
       expressionAST = parseSecondaryExpression();
@@ -571,6 +572,14 @@ case Token.NIL:
       expressionAST = parseExpression();
       accept(Token.RPAREN);
       break;
+      
+     case Token.NIL: 
+     {
+                acceptIt();
+                finish(expressionPos);
+                expressionAST = new NilExpression(expressionPos);
+      }
+            break;
 
     default:
       syntacticError("\"%\" cannot start an expression",
@@ -993,6 +1002,7 @@ case Token.NIL:
         actualAST = new FuncActualParameter(iAST, actualPos);
       }
       break;
+      
 
     default:
       syntacticError("\"%\" cannot start an actual parameter",

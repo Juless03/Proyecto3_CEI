@@ -58,7 +58,8 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
-import Triangle.AbstractSyntaxTrees.NilCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
@@ -163,9 +164,7 @@ public class LayoutVisitor implements Visitor {
         return layoutUnary("NewCom.", ast.I);
     }
     
-    public Object visitNilCommand(NilCommand ast,Object obt){
-        return layoutNullary("NilCom.");
-    }
+
 
 
   // Expressions
@@ -212,6 +211,10 @@ public class LayoutVisitor implements Visitor {
   public Object visitVnameExpression(VnameExpression ast, Object obj) {
     return layoutUnary("VnameExpr.", ast.V);
   }
+  
+  public Object visitNilExpression(NilExpression ast,Object obt){
+        return layoutNullary("NilExpr.");
+    }
 
 
   // Declarations
@@ -380,6 +383,12 @@ public class LayoutVisitor implements Visitor {
   public Object visitSingleFieldTypeDenoter(SingleFieldTypeDenoter ast, Object obj) {
     return layoutBinary("Sing.F.TypeD.", ast.I, ast.T);
   }
+  
+    public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
+      return layoutNullary("Nill.TypeD.");
+  }
+  
+
 
   // Literals, Identifiers and Operators
   public Object visitCharacterLiteral(CharacterLiteral ast, Object obj) {

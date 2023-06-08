@@ -46,7 +46,8 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
-import Triangle.AbstractSyntaxTrees.NilCommand;
+import Triangle.AbstractSyntaxTrees.NilExpression;
+import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
@@ -178,9 +179,7 @@ public class TableVisitor implements Visitor {
         ast.I.visit(this, null);
         return null;
     }
-    public Object visitNilCommand(NilCommand ast,Object obt){
-        return null;
-    }
+
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc=" Expressions ">
@@ -253,6 +252,10 @@ public class TableVisitor implements Visitor {
       
       return(null);
   }
+  
+ public Object visitNilExpression(NilExpression ast,Object obt){
+        return null;
+    }
   // </editor-fold>
   
   // <editor-fold defaultstate="collapsed" desc=" Declarations ">
@@ -606,6 +609,12 @@ public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o) {
   
       return(null);
   }
+  
+  public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
+      return null;
+  }
+  
+
   
   // </editor-fold>
 
