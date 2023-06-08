@@ -244,7 +244,7 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
       return createBinary("Recursive Declaration", ast.NodeType,ast.NodeTypeDeclaration);
   }
      public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast,Object obj){
-      return createBinary("Node Declaration", ast.I , ast.T);
+      return createQuinary("Node Declaration", ast.I , ast.head,ast.T,ast.tail,ast.T2);
   }
     // </editor-fold>
     
@@ -483,6 +483,17 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
         t.add((DefaultMutableTreeNode)child3.visit(this, null));
         t.add((DefaultMutableTreeNode)child4.visit(this, null));
         
+        return(t);             
+    }
+    
+    public DefaultMutableTreeNode createQuinary(String caption, AST child1, AST child2, AST child3, AST child4,AST child5) {
+        DefaultMutableTreeNode t = new DefaultMutableTreeNode(caption);
+        t.add((DefaultMutableTreeNode)child1.visit(this, null));
+        t.add((DefaultMutableTreeNode)child2.visit(this, null));
+        t.add((DefaultMutableTreeNode)child3.visit(this, null));
+        t.add((DefaultMutableTreeNode)child4.visit(this, null));
+        t.add((DefaultMutableTreeNode)child5.visit(this, null));
+       
         return(t);             
     }
     // </editor-fold>

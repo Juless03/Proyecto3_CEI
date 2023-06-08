@@ -251,8 +251,10 @@ public class LayoutVisitor implements Visitor {
       return layoutBinary("RecursiveDecl", ast.NodeType,ast.NodeTypeDeclaration);
   }
     public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast,Object obj){
-      return layoutBinary("NodeDecl", ast.I , ast.T);
+      return layoutQuinary("NodeDecl", ast.I,ast.head,ast.T,ast.tail,ast.T2);
   }
+    
+ 
 
 
   // Array Aggregates
@@ -379,7 +381,6 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("Sing.F.TypeD.", ast.I, ast.T);
   }
 
-
   // Literals, Identifiers and Operators
   public Object visitCharacterLiteral(CharacterLiteral ast, Object obj) {
     return layoutNullary(ast.spelling);
@@ -469,6 +470,18 @@ public class LayoutVisitor implements Visitor {
     DrawingTree d3 = (DrawingTree) child3.visit(this, null);
     DrawingTree d4 = (DrawingTree) child4.visit(this, null);
     dt.setChildren(new DrawingTree[] {d1, d2, d3, d4});
+    attachParent(dt, join(dt));
+    return dt;
+  }
+  
+  private DrawingTree layoutQuinary(String name,AST child1,AST child2,AST child3,AST child4,AST child5){
+    DrawingTree dt = layoutCaption(name);
+    DrawingTree d1 = (DrawingTree) child1.visit(this, null);
+    DrawingTree d2 = (DrawingTree) child2.visit(this, null);
+    DrawingTree d3 = (DrawingTree) child3.visit(this, null);
+    DrawingTree d4 = (DrawingTree) child4.visit(this, null);
+    DrawingTree d5 = (DrawingTree) child5.visit(this, null);
+    dt.setChildren(new DrawingTree[] {d1, d2, d3, d4,d5});
     attachParent(dt, join(dt));
     return dt;
   }

@@ -479,6 +479,7 @@ public Object visitNilCommand(NilCommand ast, Object o) {
   public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o) {
     Frame frame = (Frame) o;
     ast.T.visit(this, frame);
+    ast.T2.visit(this, frame);
     return null;
 }
 

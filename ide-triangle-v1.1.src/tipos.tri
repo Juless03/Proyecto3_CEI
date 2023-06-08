@@ -1,0 +1,11 @@
+let
+type intList ~ Node;
+	Node ~ record
+	y: Integer,
+	m: Integer,
+	d: Integer
+end;
+
+var date:Node
+
+in

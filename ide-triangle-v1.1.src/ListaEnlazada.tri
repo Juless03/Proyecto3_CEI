@@ -1,13 +1,13 @@
 let
   type IntNode ~ new Node;
-  Node = record:
+  Node : record
     value: Integer;
-    next: IntNode;
+    next: IntNode
   end;
 
   var head: IntNode;
   var current: IntNode;
-  var i: Integer;
+  var i: Integer
 in
   begin
     i := 0;

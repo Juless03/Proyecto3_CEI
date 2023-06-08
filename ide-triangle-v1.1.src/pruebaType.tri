@@ -1,4 +1,14 @@
 let
-type IntNode ~ new Node;
-record Node : Integer end
-in
+	type IntNode ~new Node;
+  	Node : record
+    	   value: Integer;
+    	   next: Integer
+  	end;
+	var head:IntNode;
+	var current: IntNode;
+	var i:Integer
+in
+begin
+	
+	put(' ');
+end

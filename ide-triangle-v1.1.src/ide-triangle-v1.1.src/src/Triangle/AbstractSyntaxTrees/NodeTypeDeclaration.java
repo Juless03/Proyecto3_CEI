@@ -16,11 +16,17 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 public class NodeTypeDeclaration extends Declaration {
     public Identifier I;
     public TypeDenoter T;
+    public Identifier head;
+    public Identifier tail;
+    public TypeDenoter T2;
 
-    public NodeTypeDeclaration(Identifier iAST, TypeDenoter tAST, SourcePosition position) {
+    public NodeTypeDeclaration(Identifier iAST,Identifier head, TypeDenoter tAST, Identifier tail, TypeDenoter t2AST,SourcePosition position) {
         super(position);
         this.I = iAST;
         this.T = tAST;
+        this.T2 = t2AST;
+        this.head = head;
+        this.tail = tail;
     }
 
     public Object visit(Visitor v, Object o) {
