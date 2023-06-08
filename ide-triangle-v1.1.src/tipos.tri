@@ -1,11 +1,17 @@
 let
-type intList ~ Node;
+type 	
+	Node2 ~ record
+	y: Integer,
+	m: Integer,
+	d: Integer
+	end
 	Node ~ record
 	y: Integer,
 	m: Integer,
 	d: Integer
-end;
+	end;
 
 var date:Node
+var date2:Node2
 
 in
