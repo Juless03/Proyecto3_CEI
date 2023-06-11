@@ -62,6 +62,7 @@ import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
@@ -386,6 +387,10 @@ public class LayoutVisitor implements Visitor {
   
     public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
       return layoutNullary("Nill.TypeD.");
+  }
+    
+   public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o){
+      return layoutUnary("Pointer.TypeD.",ast.I);
   }
   
 

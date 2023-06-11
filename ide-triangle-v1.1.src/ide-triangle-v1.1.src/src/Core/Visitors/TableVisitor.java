@@ -50,6 +50,7 @@ import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
 import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
@@ -613,6 +614,18 @@ public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o) {
   public Object visitNilTypeDenoter(NilTypeDenoter ast, Object o){
       return null;
   }
+  
+  public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o) { 
+    try {
+        addIdentifier(ast.I.spelling, 
+                "Pointer", 
+                (ast.entity != null ? ast.entity.size : 0),
+                -1, -1, -1);
+    } catch (NullPointerException e) { }
+    ast.I.visit(this, null);
+  
+    return null;
+}
   
 
   

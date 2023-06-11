@@ -1,4 +1,7 @@
 let
-    type True ~ Integer;
-    var a : array 10 of True ! True is a declared type identifier
+	type IntDate ~ Integer
+		 Date ~ record
+		    hora:Integer
+		    end;
+	var date:Date
 in

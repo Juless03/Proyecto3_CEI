@@ -6,14 +6,15 @@
         <group>
             <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Token.java</file>
             <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Core/Visitors/TableVisitor.java</file>
-            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/IdEntry.java</file>
             <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Parser.java</file>
+            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/IntTypeDenoter.java</file>
+            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/PointerTypeDenoter.java</file>
             <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/TreeDrawer/LayoutVisitor.java</file>
-            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/RecursiveTypeDeclaration.java</file>
-            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/TAM/Disassembler.java</file>
-            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/NodeTypeDeclaration.java</file>
+            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/CodeGenerator/Encoder.java</file>
+            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/Visitor.java</file>
+            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/StdEnvironment.java</file>
             <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Core/Visitors/TreeVisitor.java</file>
-            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/IdentificationTable.java</file>
+            <file>file:/C:/Users/richa/Desktop/TEC/Proyecto3_CEI/ide-triangle-v1.1.src/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/Checker.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,17 +1,10 @@
 let
-type 	
-	Node2 ~ record
-	y: Integer,
-	m: Integer,
-	d: Integer
-	end
+
+type Node ~ pointer Nil; 
+type IntList ~ pointer Node;
 	Node ~ record
-	y: Integer,
-	m: Integer,
-	d: Integer
-	end;
-
-var date:Node
-var date2:Node2
-
+		head:Integer
+		tail:Node
+		end;
+	
 in
