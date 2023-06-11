@@ -1,7 +1,8 @@
 let
-	type IntDate ~ Integer
+	type
 		 Date ~ record
 		    hora:Integer
+		    dia:Integer
 		    end;
 	var date:Date
 in

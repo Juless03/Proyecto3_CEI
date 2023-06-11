@@ -1,10 +1,9 @@
 let
 
-type Node ~ pointer Nil; 
+type Node ~ pointer Integer; 
 type IntList ~ pointer Node;
-	Node ~ record
-		head:Integer
-		tail:Node
-		end;
+	type Node2 ~ record
+		head: IntList
+		end
 	
 in

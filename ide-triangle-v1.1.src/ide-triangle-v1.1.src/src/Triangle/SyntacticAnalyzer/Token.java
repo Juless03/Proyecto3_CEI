@@ -90,29 +90,30 @@ REPEAT        = 23,
 THEN          = 24,
 TO            = 25,
 TYPE          = 26,
-UNTIL         = 27,
-VAR           = 28,
-WHILE         = 29,
+TYPEEND = 27,
+UNTIL         = 28,
+VAR           = 29,
+WHILE         = 30,
 
 // punctuation...
-DOT           = 30,
-COLON         = 31,
-SEMICOLON     = 32,
-COMMA         = 33,
-BECOMES       = 34,
-IS            = 35,
+DOT           = 31,
+COLON         = 32,
+SEMICOLON     = 33,
+COMMA         = 34,
+BECOMES       = 35,
+IS            = 36,
 
 // brackets...
-LPAREN        = 36,
-RPAREN        = 37,
-LBRACKET      = 38,
-RBRACKET      = 39,
-LCURLY        = 40,
-RCURLY        = 41,
+LPAREN        = 37,
+RPAREN        = 38,
+LBRACKET      = 39,
+RBRACKET      = 40,
+LCURLY        = 41,
+RCURLY        = 42,
 
 // special tokens...
-EOT           = 42,
-ERROR         = 43;
+EOT           = 43,
+ERROR         = 44;
 
 
 
@@ -144,6 +145,7 @@ ERROR         = 43;
     "then",
     "to",
     "type",
+    "typeend",
     "until",
     "var",
     "while",
