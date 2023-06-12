@@ -100,7 +100,7 @@ public class Parser {
     private ErrorReporter errorReporter;
     private Token currentToken;
     private SourcePosition previousTokenPosition;
-    private List<IncompleteReference> incompleteReferences = new ArrayList<>();
+    
 
 
     public Parser(Scanner lexer, ErrorReporter reporter) {
@@ -1007,7 +1007,7 @@ public class Parser {
                 finish(typePos);
                 typeAST = new PointerTypeDenoter(iAST, typePos);
                 
-                incompleteReferences.add(new IncompleteReference(iAST, typePos));
+             
             }
             break;
 

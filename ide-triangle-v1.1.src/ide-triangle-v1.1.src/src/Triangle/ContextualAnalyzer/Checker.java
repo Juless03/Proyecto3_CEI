@@ -49,6 +49,7 @@ import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
 import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
 import Triangle.AbstractSyntaxTrees.IfExpression;
+import Triangle.AbstractSyntaxTrees.IncompleteReference;
 import Triangle.AbstractSyntaxTrees.IntTypeDenoter;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
@@ -95,9 +96,13 @@ import Triangle.AbstractSyntaxTrees.Visitor;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
 import Triangle.SyntacticAnalyzer.SourcePosition;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public final class Checker implements Visitor {
+
+    private List<PointerTypeDenoter> incompleteReferences = new ArrayList<>();
 
     // Commands
     // Always returns null. Does not use the given object.
@@ -428,9 +433,42 @@ public final class Checker implements Visitor {
         return null;
     }
 
+    private void processIncompleteReferences() {
+        System.out.println("Llego aca");
+        System.out.println("Size: " + incompleteReferences.size());
+        for (PointerTypeDenoter ref : incompleteReferences) {
+            System.out.println("Entro al for");
+            Declaration decl = idTable.retrieve(ref.I.spelling);
+            System.out.println("ref: "+ref.I.spelling);
+            System.out.println("Decl: "+decl);
+            if (decl != null && decl instanceof TypeDeclaration) {
+                ref.I.decl = decl;
+            } else {
+                reporter.reportError("\"%\" not declared", ref.I.spelling, ref.position);
+            }
+        }
+        incompleteReferences.clear();
+    }
+
     public Object visitTypeDeclaration(TypeDeclaration ast, Object o) {
         ast.T = (TypeDenoter) ast.T.visit(this, null);
         idTable.enter(ast.I.spelling, ast);
+       // Declaration d = idTable.retrieve(ast.I.spelling);
+ 
+        System.out.println("Nombre T: " + ast.I.spelling);
+        System.out.println("Nombre T: " + ast.T);
+        if (ast.T instanceof PointerTypeDenoter) {
+          
+            PointerTypeDenoter pointerType = (PointerTypeDenoter) ast.T;
+             System.out.println("Pointer: "+pointerType.I.spelling);
+            Declaration binding = idTable.retrieve(pointerType.I.spelling);
+            // If the reference is null or not a TypeDeclaration, it's an incomplete reference
+            if (binding == null || !(binding instanceof TypeDeclaration)) {
+                System.out.println("El puntero no esta apuntando a nada");
+                //idTable.enter(pointerType.I.spelling, ast);
+                incompleteReferences.add(pointerType);
+            }
+        }
         if (ast.duplicated) {
             reporter.reportError("identifier \"%\" already declared",
                     ast.I.spelling, ast.position);
@@ -445,6 +483,7 @@ public final class Checker implements Visitor {
     public Object visitVarDeclaration(VarDeclaration ast, Object o) {
         ast.T = (TypeDenoter) ast.T.visit(this, null);
         idTable.enter(ast.I.spelling, ast);
+
         if (ast.duplicated) {
             reporter.reportError("identifier \"%\" already declared",
                     ast.I.spelling, ast.position);
@@ -769,15 +808,15 @@ public final class Checker implements Visitor {
     public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o) {
 
         Declaration binding = (Declaration) ast.I.visit(this, null);
-        if (binding == null) {
-            reportUndeclared(ast.I);
-            return StdEnvironment.errorType;
-        } else if (!(binding instanceof TypeDeclaration)) {
-            reporter.reportError("\"%\" is not a type identifier",
-                    ast.I.spelling, ast.I.position);
-            return StdEnvironment.errorType;
+        if (binding == null || !(binding instanceof TypeDeclaration)) {
+       
+           // incompleteReferences.add(ast);
+            return ast;
+        } else {
+            
+            ast.I.decl = binding;
+            return ast;
         }
-        return ast;
     }
 
     // Literals, Identifiers and Operators
@@ -885,6 +924,7 @@ public final class Checker implements Visitor {
     // Programs
     public Object visitProgram(Program ast, Object o) {
         ast.C.visit(this, null);
+        processIncompleteReferences();
         return null;
     }
 

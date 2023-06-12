@@ -15,8 +15,8 @@ public class IncompleteReference {
     public Identifier typeIdentifier;
     public SourcePosition referenceLocation;
 
-    public IncompleteReference(Identifier typeIdentifier, SourcePosition referenceLocation) {
+    public IncompleteReference(Identifier typeIdentifier, SourcePosition thePosition) {
         this.typeIdentifier = typeIdentifier;
-        this.referenceLocation = referenceLocation;
+        this.referenceLocation = thePosition;
     }
 }
