@@ -49,6 +49,7 @@ import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
 import Triangle.AbstractSyntaxTrees.Identifier;
 import Triangle.AbstractSyntaxTrees.IfCommand;
 import Triangle.AbstractSyntaxTrees.IfExpression;
+import Triangle.AbstractSyntaxTrees.IncompleteReference;
 import Triangle.AbstractSyntaxTrees.IntegerExpression;
 import Triangle.AbstractSyntaxTrees.IntegerLiteral;
 import Triangle.AbstractSyntaxTrees.LetCommand;
@@ -91,6 +92,7 @@ import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Parser {
 
@@ -98,6 +100,8 @@ public class Parser {
     private ErrorReporter errorReporter;
     private Token currentToken;
     private SourcePosition previousTokenPosition;
+    private List<IncompleteReference> incompleteReferences = new ArrayList<>();
+
 
     public Parser(Scanner lexer, ErrorReporter reporter) {
         lexicalAnalyser = lexer;
@@ -715,13 +719,13 @@ public class Parser {
             break;
 
             case Token.TYPE: {
-                acceptIt();
+                acceptIt();    
                 Identifier iAST = parseIdentifier();
                 accept(Token.IS);
                 TypeDenoter tAST = parseTypeDenoter();
                 finish(declarationPos);
                 declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
-
+          
             }
             break;
 
@@ -1002,6 +1006,8 @@ public class Parser {
                 Identifier iAST = parseIdentifier();
                 finish(typePos);
                 typeAST = new PointerTypeDenoter(iAST, typePos);
+                
+                incompleteReferences.add(new IncompleteReference(iAST, typePos));
             }
             break;
 

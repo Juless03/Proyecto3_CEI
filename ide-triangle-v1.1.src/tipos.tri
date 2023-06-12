@@ -1,9 +1,9 @@
 let
 
-type Node ~ pointer Integer; 
+type Node ~ pointer Integer;
 type IntList ~ pointer Node;
-	type Node2 ~ record
-		head: IntList
-		end
-	
+
+var x:IntList
+
+
 in
