@@ -152,6 +152,7 @@ public final class Checker implements Visitor {
         idTable.openScope();
         ast.D.visit(this, null);
         ast.C.visit(this, null);
+        processIncompleteReferences();
         idTable.closeScope();
         return null;
     }
@@ -339,6 +340,7 @@ public final class Checker implements Visitor {
         idTable.openScope();
         ast.D.visit(this, null);
         ast.type = (TypeDenoter) ast.E.visit(this, null);
+
         idTable.closeScope();
         return ast.type;
     }
@@ -434,15 +436,15 @@ public final class Checker implements Visitor {
     }
 
     private void processIncompleteReferences() {
-        System.out.println("Llego aca");
         System.out.println("Size: " + incompleteReferences.size());
+        
         for (PointerTypeDenoter ref : incompleteReferences) {
-            System.out.println("Entro al for");
             Declaration decl = idTable.retrieve(ref.I.spelling);
             System.out.println("ref: "+ref.I.spelling);
             System.out.println("Decl: "+decl);
             if (decl != null && decl instanceof TypeDeclaration) {
                 ref.I.decl = decl;
+                
             } else {
                 reporter.reportError("\"%\" not declared", ref.I.spelling, ref.position);
             }
@@ -453,8 +455,11 @@ public final class Checker implements Visitor {
     public Object visitTypeDeclaration(TypeDeclaration ast, Object o) {
         ast.T = (TypeDenoter) ast.T.visit(this, null);
         idTable.enter(ast.I.spelling, ast);
+     
        // Declaration d = idTable.retrieve(ast.I.spelling);
- 
+    //  System.out.println("Declaracion INTLIST: "+ idTable.retrieve("IntList"));
+          //  System.out.println("Declaracion NODE: "+ idTable.retrieve("Node"));
+
         System.out.println("Nombre T: " + ast.I.spelling);
         System.out.println("Nombre T: " + ast.T);
         if (ast.T instanceof PointerTypeDenoter) {
@@ -467,6 +472,7 @@ public final class Checker implements Visitor {
                 System.out.println("El puntero no esta apuntando a nada");
                 //idTable.enter(pointerType.I.spelling, ast);
                 incompleteReferences.add(pointerType);
+   
             }
         }
         if (ast.duplicated) {
@@ -923,7 +929,10 @@ public final class Checker implements Visitor {
 
     // Programs
     public Object visitProgram(Program ast, Object o) {
+
         ast.C.visit(this, null);
+//        System.out.println("Declaracion INTLIST: "+ idTable.retrieve("IntList"));
+//        System.out.println("Declaracion: "+ idTable.retrieve("Node"));
         processIncompleteReferences();
         return null;
     }

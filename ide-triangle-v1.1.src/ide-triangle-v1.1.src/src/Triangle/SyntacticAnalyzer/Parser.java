@@ -995,9 +995,10 @@ public class Parser {
             case Token.RECORD: {
                 acceptIt();
                 FieldTypeDenoter fAST = parseFieldTypeDenoter();
+                FieldTypeDenoter f2AST = parseFieldTypeDenoter();
                 accept(Token.END);
                 finish(typePos);
-                typeAST = new RecordTypeDenoter(fAST, typePos);
+                typeAST = new RecordTypeDenoter(fAST,f2AST, typePos);
             }
             break;
 
