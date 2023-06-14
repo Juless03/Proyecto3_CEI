@@ -1,35 +1,38 @@
-let
-  type IntNode ~ new Node;
-  Node : record
-    value: Integer;
-    next: IntNode
-  end;
+// Declaración de tipos de lista y nodo
+type IntList ~ pointer Node;
+type Node ~ record
+    head: Integer;
+    tail: Node;
+end;
 
-  var head: IntNode;
-  var current: IntNode;
-  var i: Integer
+let 
+    var list: IntList; 
+    var currentNode: Node; 
+    var nextNode: Node; 
+    var num: Integer; 
 in
-  begin
-    i := 0;
-    head := new IntNode;
-    current := head;
+begin
+    getint(var num); // Número de nodos a crear.
+    
+    if num > 0 then
+    begin
+        currentNode := new(Node); // Crear el primer nodo.
+        currentNode.head := 1;
+        currentNode.tail := nil;
+        list := currentNode; // Asignar el primer nodo a la lista.
+        num := num - 1;
+    end;
 
-    repeat
-      begin
-        current.value := i;
-        i := i + 1;
-        if i < 10 then
-          current.next := new IntNode;
-        current := current.next;
-      end
-    until i >= 10;
+    while num > 0 do
+    begin
+        nextNode := new(Node); // Crear un nuevo nodo.
+        nextNode.head := currentNode.head + 1;
+        nextNode.tail := nil;
+        
+        currentNode.tail := nextNode; // Conectar el nodo actual con el siguiente.
+        
+        currentNode := nextNode; // El nodo siguiente ahora es el actual.
+        num := num - 1;
+    end;
+end
 
-    current := head;
-    repeat
-      begin
-        putint(current.value);
-        put(' ');
-        current := current.next;
-      end
-    until current = nil;
-  end
