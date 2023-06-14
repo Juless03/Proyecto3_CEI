@@ -347,7 +347,9 @@ public final class Checker implements Visitor {
 
     public Object visitRecordExpression(RecordExpression ast, Object o) {
         FieldTypeDenoter rType = (FieldTypeDenoter) ast.RA.visit(this, null);
-        ast.type = new RecordTypeDenoter(rType, ast.position);
+        FieldTypeDenoter r2Type = (FieldTypeDenoter) ast.RA.visit(this, null);
+
+        ast.type = new RecordTypeDenoter(rType,r2Type, ast.position);
         return ast.type;
     }
 
@@ -436,12 +438,9 @@ public final class Checker implements Visitor {
     }
 
     private void processIncompleteReferences() {
-        System.out.println("Size: " + incompleteReferences.size());
         
         for (PointerTypeDenoter ref : incompleteReferences) {
             Declaration decl = idTable.retrieve(ref.I.spelling);
-            System.out.println("ref: "+ref.I.spelling);
-            System.out.println("Decl: "+decl);
             if (decl != null && decl instanceof TypeDeclaration) {
                 ref.I.decl = decl;
                 
@@ -455,24 +454,11 @@ public final class Checker implements Visitor {
     public Object visitTypeDeclaration(TypeDeclaration ast, Object o) {
         ast.T = (TypeDenoter) ast.T.visit(this, null);
         idTable.enter(ast.I.spelling, ast);
-     
-       // Declaration d = idTable.retrieve(ast.I.spelling);
-    //  System.out.println("Declaracion INTLIST: "+ idTable.retrieve("IntList"));
-          //  System.out.println("Declaracion NODE: "+ idTable.retrieve("Node"));
-
-        System.out.println("Nombre T: " + ast.I.spelling);
-        System.out.println("Nombre T: " + ast.T);
-        if (ast.T instanceof PointerTypeDenoter) {
-          
+        if (ast.T instanceof PointerTypeDenoter) {  
             PointerTypeDenoter pointerType = (PointerTypeDenoter) ast.T;
-             System.out.println("Pointer: "+pointerType.I.spelling);
             Declaration binding = idTable.retrieve(pointerType.I.spelling);
-            // If the reference is null or not a TypeDeclaration, it's an incomplete reference
             if (binding == null || !(binding instanceof TypeDeclaration)) {
-                System.out.println("El puntero no esta apuntando a nada");
-                //idTable.enter(pointerType.I.spelling, ast);
                 incompleteReferences.add(pointerType);
-   
             }
         }
         if (ast.duplicated) {

@@ -18,9 +18,10 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class RecordTypeDenoter extends TypeDenoter {
 
-  public RecordTypeDenoter (FieldTypeDenoter ftAST, SourcePosition thePosition) {
+  public RecordTypeDenoter (FieldTypeDenoter ftAST,FieldTypeDenoter ft2AST,SourcePosition thePosition) {
     super (thePosition);
     FT = ftAST;
+    FT2 = ft2AST;
   }
 
   public Object visit (Visitor v, Object o) {
@@ -37,4 +38,6 @@ public class RecordTypeDenoter extends TypeDenoter {
   }
 
   public FieldTypeDenoter FT;
+   public FieldTypeDenoter FT2;
+
 }

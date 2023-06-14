@@ -699,13 +699,18 @@ public Object visitNewCommand(NewCommand ast, Object o) {
 
   public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o) {
     int typeSize;
+    int typeSize2;
     if (ast.entity == null) {
       typeSize = ((Integer) ast.FT.visit(this, new Integer(0))).intValue();
-      ast.entity = new TypeRepresentation(typeSize);
+      typeSize2 =((Integer) ast.FT2.visit(this, new Integer(0))).intValue();
+
+      ast.entity = new TypeRepresentation(typeSize+typeSize2);
       writeTableDetails(ast);
-    } else
+    } else{
       typeSize = ast.entity.size;
-    return new Integer(typeSize);
+      typeSize2 = ast.entity.size;
+      }
+    return new Integer(typeSize+typeSize2);
   }
 
 

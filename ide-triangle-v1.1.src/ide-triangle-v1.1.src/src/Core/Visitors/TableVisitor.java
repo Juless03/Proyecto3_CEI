@@ -580,6 +580,7 @@ public Object visitNodeTypeDeclaration(NodeTypeDeclaration ast, Object o) {
   
   public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o) {   
       ast.FT.visit(this, null);
+      ast.FT2.visit(this, o);
       return(null);
   }
 

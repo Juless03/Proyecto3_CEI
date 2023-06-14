@@ -363,7 +363,7 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
     }
     
     public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object obj) {
-        return(createUnary("Record Type Denoter", ast.FT));
+        return(createBinary("Record Type Denoter", ast.FT,ast.FT2));
     }
     
     public Object visitMultipleFieldTypeDenoter(MultipleFieldTypeDenoter ast, Object obj) {

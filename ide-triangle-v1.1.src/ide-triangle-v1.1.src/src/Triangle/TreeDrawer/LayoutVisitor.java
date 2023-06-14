@@ -373,7 +373,7 @@ public class LayoutVisitor implements Visitor {
   }
 
   public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object obj) {
-    return layoutUnary("Rec.TypeD.", ast.FT);
+    return layoutBinary("Rec.TypeD.", ast.FT,ast.FT2);
   }
 
 
