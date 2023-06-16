@@ -60,6 +60,7 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NewExpression;
 import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.Operator;
 import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
@@ -100,8 +101,6 @@ public class Parser {
     private ErrorReporter errorReporter;
     private Token currentToken;
     private SourcePosition previousTokenPosition;
-    
-
 
     public Parser(Scanner lexer, ErrorReporter reporter) {
         lexicalAnalyser = lexer;
@@ -453,6 +452,15 @@ public class Parser {
                 expressionAST = new NilExpression(expressionPos);
             }
             break;
+            case Token.NEW: {
+                acceptIt();
+                accept(Token.LPAREN);
+                Identifier iAST = parseIdentifier();
+                accept(Token.RPAREN);
+                finish(expressionPos);
+                expressionAST = new NewExpression(iAST, expressionPos);
+            }
+            break;
 
             default:
                 expressionAST = parseSecondaryExpression();
@@ -719,13 +727,13 @@ public class Parser {
             break;
 
             case Token.TYPE: {
-                acceptIt();    
+                acceptIt();
                 Identifier iAST = parseIdentifier();
                 accept(Token.IS);
                 TypeDenoter tAST = parseTypeDenoter();
                 finish(declarationPos);
                 declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
-          
+
             }
             break;
 
@@ -998,7 +1006,7 @@ public class Parser {
                 FieldTypeDenoter f2AST = parseFieldTypeDenoter();
                 accept(Token.END);
                 finish(typePos);
-                typeAST = new RecordTypeDenoter(fAST,f2AST, typePos);
+                typeAST = new RecordTypeDenoter(fAST, f2AST, typePos);
             }
             break;
 
@@ -1007,8 +1015,7 @@ public class Parser {
                 Identifier iAST = parseIdentifier();
                 finish(typePos);
                 typeAST = new PointerTypeDenoter(iAST, typePos);
-                
-             
+
             }
             break;
 

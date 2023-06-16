@@ -58,6 +58,7 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NewExpression;
 import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
@@ -215,6 +216,10 @@ public class LayoutVisitor implements Visitor {
   
   public Object visitNilExpression(NilExpression ast,Object obt){
         return layoutNullary("NilExpr.");
+    }
+  
+    public Object visitNewExpression(NewExpression ast,Object obt){
+        return layoutUnary("NewExpr.",ast.I);
     }
 
 

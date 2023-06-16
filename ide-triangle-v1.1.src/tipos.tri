@@ -1,10 +1,16 @@
 let
+  type IntList ~ pointer Node;
+  type Node ~ record
+      head: Integer
+      tail: Integer
+    end;
+  var list: IntList
 
-type IntList ~ pointer Node;
-type Node ~ record
-	    head:Integer
-	    tail:Node
-	    end;
 
-var x: IntList
-in
+in
+  begin
+    list:=new(Node);
+    list.head:=5;
+    putint(list.head)
+
+  end

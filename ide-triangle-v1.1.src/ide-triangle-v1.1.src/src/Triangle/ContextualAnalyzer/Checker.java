@@ -61,6 +61,7 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NewExpression;
 import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
@@ -151,8 +152,9 @@ public final class Checker implements Visitor {
     public Object visitLetCommand(LetCommand ast, Object o) {
         idTable.openScope();
         ast.D.visit(this, null);
-        ast.C.visit(this, null);
         processIncompleteReferences();
+        ast.C.visit(this, null);
+
         idTable.closeScope();
         return null;
     }
@@ -349,7 +351,21 @@ public final class Checker implements Visitor {
         FieldTypeDenoter rType = (FieldTypeDenoter) ast.RA.visit(this, null);
         FieldTypeDenoter r2Type = (FieldTypeDenoter) ast.RA.visit(this, null);
 
-        ast.type = new RecordTypeDenoter(rType,r2Type, ast.position);
+        ast.type = new RecordTypeDenoter(rType, r2Type, ast.position);
+        return ast.type;
+    }
+
+    public Object visitNewExpression(NewExpression ast, Object o) {
+        Declaration decl = idTable.retrieve(ast.I.spelling);
+
+        if (!(decl instanceof TypeDeclaration)) {
+            reporter.reportError("\"%\" is not a type identifier",
+                    ast.I.spelling, ast.I.position);
+            ast.type = StdEnvironment.errorType;
+        } else {
+           ast.type = new PointerTypeDenoter(ast.I, ast.I.position);
+        }
+
         return ast.type;
     }
 
@@ -438,12 +454,11 @@ public final class Checker implements Visitor {
     }
 
     private void processIncompleteReferences() {
-        
         for (PointerTypeDenoter ref : incompleteReferences) {
             Declaration decl = idTable.retrieve(ref.I.spelling);
             if (decl != null && decl instanceof TypeDeclaration) {
                 ref.I.decl = decl;
-                
+
             } else {
                 reporter.reportError("\"%\" not declared", ref.I.spelling, ref.position);
             }
@@ -454,7 +469,7 @@ public final class Checker implements Visitor {
     public Object visitTypeDeclaration(TypeDeclaration ast, Object o) {
         ast.T = (TypeDenoter) ast.T.visit(this, null);
         idTable.enter(ast.I.spelling, ast);
-        if (ast.T instanceof PointerTypeDenoter) {  
+        if (ast.T instanceof PointerTypeDenoter) {
             PointerTypeDenoter pointerType = (PointerTypeDenoter) ast.T;
             Declaration binding = idTable.retrieve(pointerType.I.spelling);
             if (binding == null || !(binding instanceof TypeDeclaration)) {
@@ -779,6 +794,8 @@ public final class Checker implements Visitor {
 
     public Object visitRecordTypeDenoter(RecordTypeDenoter ast, Object o) {
         ast.FT = (FieldTypeDenoter) ast.FT.visit(this, null);
+        ast.FT2 = (FieldTypeDenoter) ast.FT2.visit(this, null);
+
         return ast;
     }
 
@@ -801,11 +818,11 @@ public final class Checker implements Visitor {
 
         Declaration binding = (Declaration) ast.I.visit(this, null);
         if (binding == null || !(binding instanceof TypeDeclaration)) {
-       
-           // incompleteReferences.add(ast);
+
+            // incompleteReferences.add(ast);
             return ast;
         } else {
-            
+
             ast.I.decl = binding;
             return ast;
         }
@@ -854,14 +871,22 @@ public final class Checker implements Visitor {
     // offset due to these indexing operations at run-time.
     // Returns the TypeDenoter of the Vname. Does not use the
     // given object.
+    int cont = 0;
     public Object visitDotVname(DotVname ast, Object o) {
+     
         ast.type = null;
         TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
         ast.variable = ast.V.variable;
         if (!(vType instanceof RecordTypeDenoter)) {
             reporter.reportError("record expected here", "", ast.V.position);
         } else {
-            ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT, ast.I);
+            if(cont==0){
+                ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT, ast.I);
+            }
+            else{
+                ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT2, ast.I);
+            }
+            cont++;
             if (ast.type == StdEnvironment.errorType) {
                 reporter.reportError("no field \"%\" in this record type",
                         ast.I.spelling, ast.I.position);

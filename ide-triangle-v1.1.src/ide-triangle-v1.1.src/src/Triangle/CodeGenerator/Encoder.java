@@ -67,6 +67,7 @@ import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
 import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
 import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
 import Triangle.AbstractSyntaxTrees.NewCommand;
+import Triangle.AbstractSyntaxTrees.NewExpression;
 import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
@@ -368,9 +369,23 @@ public Object visitNewCommand(NewCommand ast, Object o) {
     Frame frame = (Frame) o;
 
     emit(Machine.LOADLop, 0, 0, 0);
+  
     return 1;
 }
+    
+public Object visitNewExpression(NewExpression ast, Object o) {
+    
+    Frame frame = (Frame) o;
+    System.out.println("Enconde type: "+ast.type);
+    Integer size = (Integer) ast.type.visit(this, null);
+ 
+    System.out.println("Size: "+size);
+    emit(Machine.PUSHop, 0, 0, size);
+    emit(Machine.CALLop, Machine.SBr, Machine.PBr, Machine.newDisplacement);
 
+    // Return size
+    return 1;
+}
 
   // Declarations
   public Object visitBinaryOperatorDeclaration(BinaryOperatorDeclaration ast,
