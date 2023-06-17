@@ -63,6 +63,7 @@ import Triangle.AbstractSyntaxTrees.NewCommand;
 import Triangle.AbstractSyntaxTrees.NewExpression;
 import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PointerDesref;
 import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -417,7 +418,6 @@ public class Parser {
 ///////////////////////////////////////////////////////////////////////////////
     Expression parseExpression() throws SyntaxError {
         Expression expressionAST = null; // in case there's a syntactic error
-
         SourcePosition expressionPos = new SourcePosition();
 
         start(expressionPos);
@@ -619,6 +619,7 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
     Vname parseVname() throws SyntaxError {
+
         Vname vnameAST = null; // in case there's a syntactic error
         Identifier iAST = parseIdentifier();
         vnameAST = parseRestOfVname(iAST);
@@ -629,14 +630,22 @@ public class Parser {
         SourcePosition vnamePos = new SourcePosition();
         vnamePos = identifierAST.position;
         Vname vAST = new SimpleVname(identifierAST, vnamePos);
-
+        if (currentToken.kind == Token.FLECHA) {
+                acceptIt();
+               // Identifier derefId = parseIdentifier();
+                //System.out.println("id: "+derefId);
+                vAST = new PointerDesref(vAST, vnamePos);
+        }
         while (currentToken.kind == Token.DOT
                 || currentToken.kind == Token.LBRACKET) {
+             //System.out.println("Current: "+currentToken.kind);
 
             if (currentToken.kind == Token.DOT) {
                 acceptIt();
                 Identifier iAST = parseIdentifier();
                 vAST = new DotVname(vAST, iAST, vnamePos);
+            
+
             } else {
                 acceptIt();
                 Expression eAST = parseExpression();

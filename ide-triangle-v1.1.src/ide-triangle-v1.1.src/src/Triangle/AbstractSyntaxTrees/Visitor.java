@@ -118,6 +118,7 @@ public interface Visitor {
   public abstract Object visitDotVname(DotVname ast, Object o);
   public abstract Object visitSimpleVname(SimpleVname ast, Object o);
   public abstract Object visitSubscriptVname(SubscriptVname ast, Object o);
+  public abstract Object visitPointerDesref(PointerDesref ast,Object o);
 
   // Programs
   public abstract Object visitProgram(Program ast, Object o);

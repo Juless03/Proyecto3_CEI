@@ -10,7 +10,6 @@ let
 in
   begin
     list:=new(Node);
-    list.head:=5;
-    putint(list.head)
+    list.>.head:=3;
 
   end

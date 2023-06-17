@@ -5,7 +5,7 @@ let
  var num: Integer
 in
 begin
- getint (var num); ! Number of iterations.
+ getint(var num);
  i:= 1;
  j:= 2;
  while (num > 0) do

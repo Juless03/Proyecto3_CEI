@@ -66,6 +66,7 @@ import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PointerDesref;
 import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -827,6 +828,19 @@ public final class Checker implements Visitor {
             return ast;
         }
     }
+    
+    public Object visitPointerDesref(PointerDesref ast, Object o) {
+    TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
+
+    if (!(vType instanceof PointerTypeDenoter)) {
+//        reporter.reportError("Variable \"%\" is not a pointer",
+//                ast.I.spelling, ast.V.position);
+    } else {
+        ast.type = ((PointerTypeDenoter) vType);
+    }
+
+    return ast.type;
+}
 
     // Literals, Identifiers and Operators
     public Object visitCharacterLiteral(CharacterLiteral CL, Object o) {
@@ -919,6 +933,8 @@ public final class Checker implements Visitor {
         }
         return ast.type;
     }
+    
+    
 
     public Object visitSubscriptVname(SubscriptVname ast, Object o) {
         TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);

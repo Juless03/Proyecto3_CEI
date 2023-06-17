@@ -51,6 +51,7 @@ import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PointerDesref;
 import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -383,6 +384,9 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
   }
     public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o){
       return (createUnary("Pointer Type Denoter",ast.I));
+  }
+   public Object visitPointerDesref(PointerDesref ast, Object o){
+      return (createUnary("Pointer.DesRef.",ast.V));
   }
 
     // </editor-fold>

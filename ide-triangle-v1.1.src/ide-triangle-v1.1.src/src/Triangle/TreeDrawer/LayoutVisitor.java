@@ -63,6 +63,7 @@ import Triangle.AbstractSyntaxTrees.NilExpression;
 import Triangle.AbstractSyntaxTrees.NilTypeDenoter;
 import Triangle.AbstractSyntaxTrees.NodeTypeDeclaration;
 import Triangle.AbstractSyntaxTrees.Operator;
+import Triangle.AbstractSyntaxTrees.PointerDesref;
 import Triangle.AbstractSyntaxTrees.PointerTypeDenoter;
 import Triangle.AbstractSyntaxTrees.ProcActualParameter;
 import Triangle.AbstractSyntaxTrees.ProcDeclaration;
@@ -396,6 +397,10 @@ public class LayoutVisitor implements Visitor {
     
    public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o){
       return layoutUnary("Pointer.TypeD.",ast.I);
+  }
+   
+      public Object visitPointerDesref(PointerDesref ast, Object o){
+      return layoutUnary("Pointer.DesRef.",ast.V);
   }
   
 
