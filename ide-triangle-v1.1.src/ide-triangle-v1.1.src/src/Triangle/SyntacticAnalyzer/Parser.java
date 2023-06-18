@@ -633,13 +633,10 @@ public class Parser {
        
         if (currentToken.kind == Token.FLECHA) {
                 acceptIt();
-               // Identifier derefId = parseIdentifier();
-                //System.out.println("id: "+derefId);
                 vAST = new PointerDesref(vAST, vnamePos);
         }
         while (currentToken.kind == Token.DOT
                 || currentToken.kind == Token.LBRACKET) {
-             //System.out.println("Current: "+currentToken.kind);
 
             if (currentToken.kind == Token.DOT) {
                 acceptIt();

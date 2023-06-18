@@ -766,10 +766,7 @@ public final class Encoder implements Visitor {
     public Object visitPointerDesref(PointerDesref ast, Object o) {
         Frame frame = (Frame) o;
         RuntimeEntity baseObject = (RuntimeEntity) ast.V.visit(this, frame);
-
-        // Asegurarse de que la baseObject es una KnownAddress.
         if (!(baseObject instanceof KnownAddress)) {
-            // Si no es una KnownAddress, hay un problema. Lanzar una excepción o informar de un error.
             throw new RuntimeException("Expected a KnownAddress but got " + baseObject);
         }
 
