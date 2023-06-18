@@ -13,9 +13,11 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
  */
 public class PointerTypeDenoter extends TypeDenoter {
     public Identifier I;
-   public PointerTypeDenoter(Identifier i, SourcePosition pos) {
+    public TypeDenoter T;
+   public PointerTypeDenoter(Identifier i, TypeDenoter t,SourcePosition pos) {
         super(pos);
         I = i;
+        T = t;
     }
 
     public Object visit(Visitor v, Object o) {

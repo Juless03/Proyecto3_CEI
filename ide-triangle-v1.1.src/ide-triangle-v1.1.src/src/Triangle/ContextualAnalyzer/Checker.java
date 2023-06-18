@@ -364,7 +364,7 @@ public final class Checker implements Visitor {
                     ast.I.spelling, ast.I.position);
             ast.type = StdEnvironment.errorType;
         } else {
-           ast.type = new PointerTypeDenoter(ast.I, ast.I.position);
+           ast.type = new PointerTypeDenoter(ast.I, ast.type,ast.I.position);
         }
 
         return ast.type;
@@ -459,6 +459,7 @@ public final class Checker implements Visitor {
             Declaration decl = idTable.retrieve(ref.I.spelling);
             if (decl != null && decl instanceof TypeDeclaration) {
                 ref.I.decl = decl;
+                ref.T = ((TypeDeclaration)decl).T;
 
             } else {
                 reporter.reportError("\"%\" not declared", ref.I.spelling, ref.position);
@@ -831,14 +832,18 @@ public final class Checker implements Visitor {
     
     public Object visitPointerDesref(PointerDesref ast, Object o) {
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
-
-    if (!(vType instanceof PointerTypeDenoter)) {
-//        reporter.reportError("Variable \"%\" is not a pointer",
-//                ast.I.spelling, ast.V.position);
+    
+       
+    if (!(ast.V.type  instanceof PointerTypeDenoter)) {
+        System.out.println("ERROR");
+//      reporter.reportError("Variable \"%\" is not a pointer",
+//                ast.V.position);
     } else {
-        ast.type = ((PointerTypeDenoter) vType);
+        
+        ast.type = ((PointerTypeDenoter) vType).T;
+        ast.variable = true;
     }
-
+  
     return ast.type;
 }
 
@@ -890,17 +895,20 @@ public final class Checker implements Visitor {
      
         ast.type = null;
         TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
+
         ast.variable = ast.V.variable;
+//        System.out.println("field: "+ast.I.spelling);
         if (!(vType instanceof RecordTypeDenoter)) {
             reporter.reportError("record expected here", "", ast.V.position);
         } else {
-            if(cont==0){
+           if(cont==0){
                 ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT, ast.I);
             }
-            else{
-                ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT2, ast.I);
-            }
-            cont++;
+//            else{
+//                ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT2, ast.I);
+//            }
+//            System.out.println("Cont: "+cont);
+//            cont++;
             if (ast.type == StdEnvironment.errorType) {
                 reporter.reportError("no field \"%\" in this record type",
                         ast.I.spelling, ast.I.position);

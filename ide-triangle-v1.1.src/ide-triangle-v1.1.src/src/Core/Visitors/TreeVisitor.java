@@ -383,7 +383,7 @@ public Object visitCaseCommand(CaseCommand ast, Object obj) {
       return (createNullary("Nil Type Denoter"));
   }
     public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o){
-      return (createUnary("Pointer Type Denoter",ast.I));
+      return (createBinary("Pointer Type Denoter",ast.I,ast.T));
   }
    public Object visitPointerDesref(PointerDesref ast, Object o){
       return (createUnary("Pointer.DesRef.",ast.V));

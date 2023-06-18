@@ -396,7 +396,7 @@ public class LayoutVisitor implements Visitor {
   }
     
    public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o){
-      return layoutUnary("Pointer.TypeD.",ast.I);
+      return layoutBinary("Pointer.TypeD.",ast.I,ast.T);
   }
    
       public Object visitPointerDesref(PointerDesref ast, Object o){

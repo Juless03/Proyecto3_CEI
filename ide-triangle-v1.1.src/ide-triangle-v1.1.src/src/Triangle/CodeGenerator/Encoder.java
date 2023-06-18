@@ -368,10 +368,7 @@ public final class Encoder implements Visitor {
     public Object visitNewExpression(NewExpression ast, Object o) {
 
         Frame frame = (Frame) o;
-        System.out.println("Enconde type: " + ast.type);
         Integer size = (Integer) ast.type.visit(this, null);
-
-        System.out.println("Size: " + size);
         emit(Machine.PUSHop, 0, 0, size);
         emit(Machine.CALLop, Machine.SBr, Machine.PBr, Machine.newDisplacement);
 
@@ -754,7 +751,7 @@ public final class Encoder implements Visitor {
     }
 
     public Object visitPointerTypeDenoter(PointerTypeDenoter ast, Object o) {
-        
+
         int typeSize;
         if (ast.entity == null) {
             typeSize = 4;
@@ -768,13 +765,18 @@ public final class Encoder implements Visitor {
 
     public Object visitPointerDesref(PointerDesref ast, Object o) {
         Frame frame = (Frame) o;
-        System.out.println("Encoder Desref");
+        RuntimeEntity baseObject = (RuntimeEntity) ast.V.visit(this, frame);
 
-        ast.V.visit(this, frame);
+        // Asegurarse de que la baseObject es una KnownAddress.
+        if (!(baseObject instanceof KnownAddress)) {
+            // Si no es una KnownAddress, hay un problema. Lanzar una excepción o informar de un error.
+            throw new RuntimeException("Expected a KnownAddress but got " + baseObject);
+        }
 
-        emit(Machine.LOADop, 0, 0, 0);
-
-        return 1;
+        emit(Machine.LOADop, frame.size, ((KnownAddress) baseObject).address.level, ((KnownAddress) baseObject).address.displacement);
+       
+        
+        return baseObject;
     }
 
     // Literals, Identifiers and Operators
@@ -841,6 +843,7 @@ public final class Encoder implements Visitor {
         ast.offset = ast.V.offset + ((Field) ast.I.decl.entity).fieldOffset;
         // I.decl points to the appropriate record field
         ast.indexed = ast.V.indexed;
+        System.out.println("VIsitDOTVname: "+ast.I.spelling);
         return baseObject;
     }
 

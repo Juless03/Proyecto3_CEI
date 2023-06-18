@@ -15,6 +15,7 @@ public class PointerDesref extends Vname{
     public Vname V;
 
     public PointerDesref(Vname v, SourcePosition pos) {
+       
         super(pos);
         V = v;
     }

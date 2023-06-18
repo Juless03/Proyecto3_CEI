@@ -630,6 +630,7 @@ public class Parser {
         SourcePosition vnamePos = new SourcePosition();
         vnamePos = identifierAST.position;
         Vname vAST = new SimpleVname(identifierAST, vnamePos);
+       
         if (currentToken.kind == Token.FLECHA) {
                 acceptIt();
                // Identifier derefId = parseIdentifier();
@@ -1023,7 +1024,7 @@ public class Parser {
                 acceptIt();
                 Identifier iAST = parseIdentifier();
                 finish(typePos);
-                typeAST = new PointerTypeDenoter(iAST, typePos);
+                typeAST = new PointerTypeDenoter(iAST, null,typePos);
 
             }
             break;
