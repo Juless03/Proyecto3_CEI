@@ -897,16 +897,18 @@ public final class Checker implements Visitor {
         TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
 
         ast.variable = ast.V.variable;
+       
 //        System.out.println("field: "+ast.I.spelling);
+       
         if (!(vType instanceof RecordTypeDenoter)) {
             reporter.reportError("record expected here", "", ast.V.position);
         } else {
-           if(cont==0){
+           if("head".equals(ast.I.spelling)){
                 ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT, ast.I);
             }
-//            else{
-//                ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT2, ast.I);
-//            }
+            else{
+                ast.type = checkFieldIdentifier(((RecordTypeDenoter) vType).FT2, ast.I);
+            }
 //            System.out.println("Cont: "+cont);
 //            cont++;
             if (ast.type == StdEnvironment.errorType) {

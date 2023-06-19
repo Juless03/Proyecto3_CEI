@@ -840,7 +840,6 @@ public final class Encoder implements Visitor {
         ast.offset = ast.V.offset + ((Field) ast.I.decl.entity).fieldOffset;
         // I.decl points to the appropriate record field
         ast.indexed = ast.V.indexed;
-        System.out.println("VIsitDOTVname: "+ast.I.spelling);
         return baseObject;
     }
 
