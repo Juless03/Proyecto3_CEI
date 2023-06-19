@@ -1,12 +1,13 @@
 let
   type IntList ~ pointer Node;
   type Node ~ record
-      head: IntList
-      tail:Integer
+      head: Integer
+      tail: IntList
     end;
   var list: IntList
 in
   begin
     list:=new(Node);
-    list.>.head:=new(Node);
+    list.>.tail:=new(Node);
+
   end

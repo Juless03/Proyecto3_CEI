@@ -897,7 +897,6 @@ public final class Checker implements Visitor {
         TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
 
         ast.variable = ast.V.variable;
-       
 //        System.out.println("field: "+ast.I.spelling);
        
         if (!(vType instanceof RecordTypeDenoter)) {

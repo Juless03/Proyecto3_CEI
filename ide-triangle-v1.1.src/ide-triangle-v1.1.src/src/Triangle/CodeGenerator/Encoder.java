@@ -769,8 +769,8 @@ public final class Encoder implements Visitor {
         if (!(baseObject instanceof KnownAddress)) {
             throw new RuntimeException("Expected a KnownAddress but got " + baseObject);
         }
-
-        emit(Machine.LOADop, frame.size, ((KnownAddress) baseObject).address.level, ((KnownAddress) baseObject).address.displacement);
+        
+        emit(Machine.LOADop, 4, ((KnownAddress) baseObject).address.level, ((KnownAddress) baseObject).address.displacement);
        
         
         return baseObject;
@@ -834,7 +834,7 @@ public final class Encoder implements Visitor {
     }
 
     // Value-or-variable names
-    public Object visitDotVname(DotVname ast, Object o) {
+public Object visitDotVname(DotVname ast, Object o) {
         Frame frame = (Frame) o;
         RuntimeEntity baseObject = (RuntimeEntity) ast.V.visit(this, frame);
         ast.offset = ast.V.offset + ((Field) ast.I.decl.entity).fieldOffset;
@@ -842,6 +842,7 @@ public final class Encoder implements Visitor {
         ast.indexed = ast.V.indexed;
         return baseObject;
     }
+
 
     public Object visitSimpleVname(SimpleVname ast, Object o) {
         ast.offset = 0;
